@@ -37,7 +37,7 @@ Here are some vitals:
   lando info
 ```
 
-- Copy the 'APPSERVER URL' (usually the 3rd in the list) that looks similar to this: 'http://my-word-press-site.lndo.site:8000'
+- Copy the 'APPSERVER URL' (usually the 3rd in the list) that looks similar to this: `http://my-word-press-site.lndo.site:8000`
 
 - _You will need this url for the WordPress installation_
 
