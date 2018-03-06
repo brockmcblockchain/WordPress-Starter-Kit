@@ -1,0 +1,10 @@
+name: my-word-press-site
+recipe: wordpress
+config:
+  webroot: .
+  xdebug: true
+services:
+  appserver:
+    extras:
+      - "apt-get update -y"
+      - "apt-get install zip unzip -y"
