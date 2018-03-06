@@ -4,8 +4,9 @@ This bash script automatically installs and creates a fresh WordPress install us
 
 ## How to install & use
 
-- Download & install [Docker](https://docs.docker.com/install/) & start it.
+- Download & install [Docker](https://docs.docker.com/install/)
 - Download & install [Lando](https://docs.devwithlando.io/)
+- Start docker & make sure it is running
 
 ```bash
   # cd into this repo then run:
@@ -64,13 +65,15 @@ Here are some vitals:
 
 ### To enable browser sync
 
-open `webpack.dev.js` and uncomment the first line at the top of the file
+open `wp-content/themes/timber-starter-theme/webpack.dev.js` and uncomment the first line at the top of the file
 
 ```javascript
   const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 ```
 
-and also the following at the bottom of the file. Update the proxy: http://localhost:8080/ with the url of the lando dev server, ie http://my-word-press-site.lndo.site:8000:
+and also uncomment the following at the bottom of the file.
+
+Update the proxy: `http://localhost:8080/` with the url of the lando dev server, ie `http://my-word-press-site.lndo.site:8000`
 
 ```javascript
   new BrowserSyncPlugin(
@@ -95,7 +98,29 @@ start the dev server with:
   yarn start
 ```
 
-### Production Build
+- _Note_: If you get an error when trying to run the dev server, like:
+
+```bash
+new BrowserSyncPlugin(
+^^^
+
+SyntaxError: Unexpected token new
+```
+
+simply add a comma to the closing `)` to the plugin above. Like:
+
+```javascript
+new webpack.BannerPlugin({banner:
+  `${pkg.title}\n` +
+  `${pkg.repository.url}\n` +
+  `@author ${pkg.author}\n` +
+  `@version ${pkg.version}\n` +
+  `(c) Copyright DNL Omnimedia Inc. ${currYear}.\n` +
+  `${pkg.licenseText}\n`
+}),
+```
+
+## Production Build
 
 In order to minify your scrips and css for production builds, run:
 
