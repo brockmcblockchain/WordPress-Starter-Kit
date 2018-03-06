@@ -6,5 +6,5 @@ config:
 services:
   appserver:
     extras:
-      - "apt-get update -y"
-      - "apt-get install zip unzip -y"
+      # - "apt-get update -y"
+      # - "apt-get upgrade -y"

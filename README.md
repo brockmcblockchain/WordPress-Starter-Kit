@@ -4,7 +4,7 @@ This bash script automatically installs and creates a fresh WordPress install us
 
 ## How to install & use
 
-- Download & install [Docker](https://docs.docker.com/install/)
+- Download & install [Docker](https://docs.docker.com/install/) & start it.
 - Download & install [Lando](https://docs.devwithlando.io/)
 
 ```bash

@@ -1,16 +1,10 @@
 #!/bin/bash -e
-
-# wpuser='dnl-admin'
-
 clear
 
 echo "================================================================="
 echo "Awesome WordPress Installer!!"
 echo "================================================================="
 
-# accept user input for the databse name
-# echo "Database Name: "
-# read -e dbname
 
 # accept the name of the WP Admin User
 echo "WP Admin Username: (if left blank, defaults to: 'dnl-admin')"
@@ -25,13 +19,23 @@ fi
 echo "WP Admin Email Address: "
 read -e adminemail
 
+# accept the URL of the dev server from Lando
+echo "Lando Development Server URL: "
+read -e devurl
+
 # accept the name of our website
 echo "Site Name: "
 read -e sitename
 
 # accept a comma separated list of pages
-# echo "Add Pages: "
-# read -e allpages
+echo "If you already know the names of the pages you would like to create, this script can create them automatically for you"
+echo "Would you like to create your pages now? (y/n)"
+read -e createpages
+if [ "$createpages" == y ] ; then
+echo "A page called Home will automatically be created for you, so you don't need to add it here"
+echo "Add all of your page names separated by comma. Ex: about,contact us,portfolio"
+read -e allpages
+fi
 
 # ask the user to confirm the entered information is correct?
 echo "The WP Admin Username is: $wpuser"
@@ -62,15 +66,8 @@ PHP
 echo "Generating a random 14 digit strong password..."
 password=$(LC_CTYPE=C tr -dc A-Za-z0-9_\!\@\#\$\%\^\&\*\(\)-+= < /dev/urandom | head -c 14)
 
-# copy password to clipboard
-# echo $password | pbcopy
-
-# create database, and install WordPress
-# echo "Creating the database..."
-# wp db create
-
 echo "Installing WordPress..."
-wp core install --url="http://my-word-press-site.lndo.site:8000" --title="$sitename" --admin_user="$wpuser" --admin_password="$password" --admin_email="$adminemail"
+wp core install --url="$devurl" --title="$sitename" --admin_user="$wpuser" --admin_password="$password" --admin_email="$adminemail"
 
 # discourage search engines
 echo "Disabling search engine indexing, remember to enable this when you go live!"
@@ -91,10 +88,10 @@ wp option update show_on_front 'page'
 wp option update page_on_front $(wp post list --post_type=page --post_status=publish --posts_per_page=1 --pagename=Home --field=ID --format=ids)
 
 # create all of the pages
-# export IFS=","
-# for page in $allpages; do
-# 	wp post create --post_type=page --post_status=publish --post_author=$(wp user get $wpuser --field=ID --format=ids) --post_title="$(echo $page | sed -e 's/^ *//' -e 's/ *$//')"
-# done
+export IFS=","
+for page in $allpages; do
+	wp post create --post_type=page --post_status=publish --post_author=$(wp user get $wpuser --field=ID --format=ids) --post_title="$(echo $page | sed -e 's/^ *//' -e 's/ *$//')"
+done
 
 # set pretty urls
 wp rewrite structure '/%postname%/' --hard
@@ -123,21 +120,21 @@ cp -r wp-content/plugins/timber-library/timber-starter-theme wp-content/themes/
 wp theme activate timber-starter-theme
 wp theme delete twentyseventeen
 
-# clear
-
 # create a navigation bar
-# wp menu create "Main Navigation"
+wp menu create "Main Navigation"
 
 # add pages to navigation
-# export IFS=" "
-# for pageid in $(wp post list --order="ASC" --orderby="date" --post_type=page --post_status=publish --posts_per_page=-1 --field=ID --format=ids); do
-# 	wp menu item add-post main-navigation $pageid
-# done
+export IFS=" "
+for pageid in $(wp post list --order="ASC" --orderby="date" --post_type=page --post_status=publish --posts_per_page=-1 --field=ID --format=ids); do
+	wp menu item add-post main-navigation $pageid
+done
 
-# assign navigaiton to primary location
+# assign navigation to primary location
 # wp menu location assign main-navigation primary
 
-# clear
+
+
+
 
 # install TeamDNL Webpack Starter Kit
 
