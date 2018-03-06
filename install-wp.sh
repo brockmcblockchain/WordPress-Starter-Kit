@@ -31,19 +31,26 @@ read -e sitename
 echo "If you already know the names of the pages you would like to create, this script can create them automatically for you"
 echo "Would you like to create your pages now? (y/n)"
 read -e createpages
+
 if [ "$createpages" == y ] ; then
-echo "A page called Home will automatically be created for you, so you don't need to add it here"
-echo "Add all of your page names separated by comma. Ex: about,contact us,portfolio"
-echo "Notice: there are no spaces between commas"
-read -e allpages
+	echo "A page called Home will automatically be created for you, so you don't need to add it here"
+	echo "Add all of your page names separated by comma. Ex: about,contact us,portfolio"
+	echo "Notice: there are no spaces between commas"
+	read -e allpages
 fi
 
 # ask the user to confirm the entered information is correct?
+clear
 echo "The WP Admin Username is: $wpuser"
 echo "The WP Admin Email Address is: $adminemail"
 echo "The Site Name is: $sitename"
+
+if [ "$allpages" ] ; then
+	echo "You are creating the following pages: $allpages"
+fi
+
 echo "Note: The WP Admin Password will be automatically generated, and printed later for you to copy"
-echo "If correct, would you like to run the install? (y/n)"
+echo "If this is all correct, would you like to continue with the install? (y/n)"
 read -e run
 
 # if the user didn't say no, then go ahead an install
@@ -78,20 +85,20 @@ wp option update blog_public 0
 wp option update posts_per_page 6
 
 # delete sample page, and create homepage
-wp post delete $(wp post list --post_type=page --posts_per_page=1 --post_status=publish --pagename="sample-page" --field=ID --format=ids)
+wp post delete $(wp post list --post_type=page --posts_per_page=1 --post_status=publish --pagename="sample-page" --field=ID)
 
-wp post create --post_type=page --post_title=Home --post_status=publish --post_author=$(wp user get $wpuser --field=ID --format=ids)
+wp post create --post_type=page --post_title=Home --post_status=publish --post_author=$(wp user get $wpuser --field=ID)
 
 # set homepage as front page
 wp option update show_on_front 'page'
 
 # set homepage to be the new page
-wp option update page_on_front $(wp post list --post_type=page --post_status=publish --posts_per_page=1 --pagename=Home --field=ID --format=ids)
+wp option update page_on_front $(wp post list --post_type=page --post_status=publish --posts_per_page=1 --pagename=Home --field=ID)
 
 # create all of the pages
 export IFS=","
 for page in $allpages; do
-	wp post create --post_type=page --post_status=publish --post_author=$(wp user get $wpuser --field=ID --format=ids) --post_title="$(echo $page | sed -e 's/^ *//' -e 's/ *$//')"
+	wp post create --post_type=page --post_status=publish --post_author=$(wp user get $wpuser --field=ID) --post_title="$(echo $page | sed -e 's/^ *//' -e 's/ *$//')"
 done
 
 # set pretty urls
@@ -134,10 +141,12 @@ done
 # wp menu location assign main-navigation primary
 
 
-
-
-
 # install TeamDNL Webpack Starter Kit
+echo "Cloning DNL 2017 Webpack Starter Kit into timber-starter-theme/"
+cd wp-content/themes/timber-starter-theme
+git clone https://dnlrobertguss@bitbucket.org/dnlomnimedia/dnl-2017-webpack-starter-kit-js-only.git 
+cp -r dnl-2017-webpack-starter-kit-js-only/* .
+rm -rf dnl-2017-webpack-starter-kit-js-only
 
 # NPM Install - check if yarn is installed if so use that, if not use NPM
 

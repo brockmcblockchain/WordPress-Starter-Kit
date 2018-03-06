@@ -32,9 +32,14 @@ Here are some vitals:
                  https://my-word-press-site.lndo.site:444
 ```
 
+```bash
+  # you can easily find this info again by typing
+  lando info
+```
+
 - Copy the 'APPSERVER URL' (usually the 3rd in the list) that looks similar to this: 'http://my-word-press-site.lndo.site:8000'
 
-- _You will need this address for the WordPress installation_
+- _You will need this url for the WordPress installation_
 
 ```bash
   # ssh into lando to run WP install script
@@ -43,3 +48,60 @@ Here are some vitals:
 ```
 
 - follow the prompts and enter in the required information.
+
+- After the install is complete, install npm packages:
+
+```bash
+  # cd into the theme directory
+  cd wp-content/themes/timber-starter-theme
+
+  # install with npm
+  npm install
+
+  # or install with yarn
+  yarn
+```
+
+### To enable browser sync
+
+open `webpack.dev.js` and uncomment the first line at the top of the file
+
+```javascript
+  const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+```
+
+and also the following at the bottom of the file. Update the proxy: http://localhost:8080/ with the url of the lando dev server, ie http://my-word-press-site.lndo.site:8000:
+
+```javascript
+  new BrowserSyncPlugin(
+    // BrowserSync options
+    {
+      host: 'localhost',
+      port: 3000,
+      proxy: 'http://my-word-press-site.lndo.site:8000'
+    },
+    {
+      reload: false
+    }
+  )
+```
+
+start the dev server with:
+
+```bash
+  npm run start
+
+  # or
+  yarn start
+```
+
+### Production Build
+
+In order to minify your scrips and css for production builds, run:
+
+```bash
+  npm run build
+
+  # or
+  yarn build
+```
