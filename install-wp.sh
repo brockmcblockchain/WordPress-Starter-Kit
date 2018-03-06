@@ -34,6 +34,7 @@ read -e createpages
 if [ "$createpages" == y ] ; then
 echo "A page called Home will automatically be created for you, so you don't need to add it here"
 echo "Add all of your page names separated by comma. Ex: about,contact us,portfolio"
+echo "Notice: there are no spaces between commas"
 read -e allpages
 fi
 
