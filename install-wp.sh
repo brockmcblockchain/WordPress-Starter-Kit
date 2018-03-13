@@ -115,14 +115,23 @@ echo "Installing WordPress plugins..."
 WPPLUGINS=( custom-post-type-ui post-types-order svg-support )
 wp plugin install ${WPPLUGINS[@]} --activate
 
-# Install Timber via Composer
-composer require timber/timber
-
-# Clone timber starter theme and activate it
-echo "Installing & Activating Timber Starter Theme..."
+# Clone timber starter theme
+echo "Cloning Timber Starter Theme..."
 git clone git@github.com:timber/starter-theme.git wp-content/themes/timber-starter-theme
 
+# Install Timber via Composer
+echo "Installing Timber via Composer..."
+composer require timber/timber -d=wp-content/themes/timber-starter-theme
+
+# Activate Timber Plugin
+echo "Activating Timber Plugin..."
+wp plugin activate timber-library
+
+# Move functions.php into timber-starter-theme
+mv functions.php wp-content/themes/timber-starter-theme
+
 # install & activate the timber starter theme
+echo "Activating Timber Theme..."
 wp theme activate timber-starter-theme
 wp theme delete twentyseventeen
 

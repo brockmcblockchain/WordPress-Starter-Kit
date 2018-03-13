@@ -54,7 +54,7 @@ Here are some vitals:
 
 - follow the prompts and enter in the required information.
 
-## Configuring Composer
+## Configuring Composer & functions.php
 
 per [Timber's Docs](https://timber.github.io/docs/getting-started/setup/) we need to setup our WP install and let it autoload our Composer packages, in particular the Timber plugin. Inside of the `functions.php` file add the following to the top of the file:
 
@@ -62,6 +62,17 @@ per [Timber's Docs](https://timber.github.io/docs/getting-started/setup/) we nee
 <?php
 require_once( __DIR__ . '/vendor/autoload.php' );
 $timber = new Timber\Timber();
+```
+
+There is also currently a bug that you need to fix by replacing the following function with the following (it's at the very bottom of the file):
+
+```php
+function add_to_twig( $twig ) {
+  /* this is where you can add your own functions to twig */
+  $twig->addExtension( new Twig_Extension_StringLoader() );
+  $twig->addFilter( new Twig_SimpleFilter('myfoo', array($this, 'myfoo')) );
+  return $twig;
+}
 ```
 
 ## Install npm packages
