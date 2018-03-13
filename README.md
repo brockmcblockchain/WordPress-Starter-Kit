@@ -1,4 +1,4 @@
-# WordPress install scripts
+# WordPress Starter Kit
 
 This bash script automatically installs and creates a fresh WordPress install using [WP-CLI](https://make.wordpress.org/cli/handbook/) and [Lando](https://docs.devwithlando.io/) for local development.
 
