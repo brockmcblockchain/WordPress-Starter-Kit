@@ -60,10 +60,6 @@ Here are some vitals:
   # cd into the theme directory
   cd wp-content/themes/timber-starter-theme
 
-  # install with npm
-  npm install
-
-  # or install with yarn
   yarn
 ```
 
