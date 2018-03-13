@@ -2,6 +2,10 @@
 
 This bash script automatically installs and creates a fresh WordPress install using [WP-CLI](https://make.wordpress.org/cli/handbook/) and [Lando](https://docs.devwithlando.io/) for local development.
 
+By default, this starter kit uses [Timber](https://www.upstatement.com/timber/) & [My Webpack Starter Kit](https://github.com/robertguss/WordPress-Starter-Kit) for custom theme development.
+
+Feel free to fork and customize this starter kit to your liking 😎
+
 ## How to install & use
 
 - Download & install [Docker](https://docs.docker.com/install/)
@@ -40,7 +44,7 @@ Here are some vitals:
 
 - Copy the 'APPSERVER URL' (usually the 3rd in the list) that looks similar to this: `http://my-word-press-site.lndo.site:8000`
 
-- _You will need this url for the WordPress installation_
+> You will need this url for the WordPress installation
 
 ```bash
   # ssh into lando to run WP install script
@@ -50,7 +54,17 @@ Here are some vitals:
 
 - follow the prompts and enter in the required information.
 
-- After the install is complete, install npm packages:
+## Configuring Composer
+
+per [Timber's Docs](https://timber.github.io/docs/getting-started/setup/) we need to setup our WP install and let it autoload our Composer packages, in particular the Timber plugin. Inside of the `functions.php` file add the following to the top of the file:
+
+```php
+<?php
+require_once( __DIR__ . '/vendor/autoload.php' );
+$timber = new Timber\Timber();
+```
+
+## Install npm packages
 
 ```bash
   # cd into the theme directory
@@ -63,7 +77,7 @@ Here are some vitals:
   yarn
 ```
 
-### To enable browser sync
+## To enable browser sync
 
 open `wp-content/themes/timber-starter-theme/webpack.dev.js` and uncomment the first line at the top of the file
 
@@ -92,32 +106,7 @@ Update the proxy: `http://localhost:8080/` with the url of the lando dev server,
 start the dev server with:
 
 ```bash
-  npm run start
-
-  # or
   yarn start
-```
-
-- _Note_: If you get an error when trying to run the dev server, like:
-
-```bash
-new BrowserSyncPlugin(
-^^^
-
-SyntaxError: Unexpected token new
-```
-
-simply add a comma to the closing `)` to the plugin above. Like:
-
-```javascript
-new webpack.BannerPlugin({banner:
-  `${pkg.title}\n` +
-  `${pkg.repository.url}\n` +
-  `@author ${pkg.author}\n` +
-  `@version ${pkg.version}\n` +
-  `(c) Copyright DNL Omnimedia Inc. ${currYear}.\n` +
-  `${pkg.licenseText}\n`
-}),
 ```
 
 ## Production Build
@@ -125,8 +114,5 @@ new webpack.BannerPlugin({banner:
 In order to minify your scrips and css for production builds, run:
 
 ```bash
-  npm run build
-
-  # or
   yarn build
 ```

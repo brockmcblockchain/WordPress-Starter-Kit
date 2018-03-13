@@ -7,13 +7,8 @@ echo "================================================================="
 
 
 # accept the name of the WP Admin User
-echo "WP Admin Username: (if left blank, defaults to: 'dnl-admin')"
+echo "WP Admin Username:"
 read -e wpuser
-
-# if the admin name is blank then default name is 'dnl-admin'
-if [ "$wpuser" == '' ] ; then
-wpuser='dnl-admin'
-fi
 
 # accept the email of the WP Admin User
 echo "WP Admin Email Address: "
@@ -34,7 +29,7 @@ read -e createpages
 
 if [ "$createpages" == y ] ; then
 	echo "A page called Home will automatically be created for you, so you don't need to add it here"
-	echo "Add all of your page names separated by comma. Ex: about,contact us,portfolio"
+	echo "Add all of your page names separated by comma. Ex: About,Contact,Some Other Page"
 	echo "Notice: there are no spaces between commas"
 	read -e allpages
 fi
@@ -117,12 +112,15 @@ wp theme delete twentysixteen
 
 # install WordPress Plugins
 echo "Installing WordPress plugins..."
-WPPLUGINS=( custom-post-type-ui post-types-order svg-support timber-library advanced-custom-fields )
+WPPLUGINS=( custom-post-type-ui post-types-order svg-support )
 wp plugin install ${WPPLUGINS[@]} --activate
 
-# Copy timber starter theme from plugin directory into themes directory and activate it
+# Install Timber via Composer
+composer require timber/timber
+
+# Clone timber starter theme and activate it
 echo "Installing & Activating Timber Starter Theme..."
-cp -r wp-content/plugins/timber-library/timber-starter-theme wp-content/themes/
+git clone git@github.com:timber/starter-theme.git wp-content/themes/timber-starter-theme
 
 # install & activate the timber starter theme
 wp theme activate timber-starter-theme
@@ -141,12 +139,11 @@ done
 # wp menu location assign main-navigation primary
 
 
-# install TeamDNL Webpack Starter Kit
-echo "Cloning DNL 2017 Webpack Starter Kit into timber-starter-theme/"
-cd wp-content/themes/timber-starter-theme
-git clone https://dnlrobertguss@bitbucket.org/dnlomnimedia/dnl-2017-webpack-starter-kit-js-only.git 
-cp -r dnl-2017-webpack-starter-kit-js-only/* .
-rm -rf dnl-2017-webpack-starter-kit-js-only
+# install Webpack Starter Kit
+echo "Cloning Webpack Starter Kit"
+git clone https://github.com/robertguss/Webpack-Starter-Kit wp-content/themes/timber-starter-theme/wepback-starter-kit
+cp -r wp-content/themes/timber-starter-theme/wepback-starter-kit/* wp-content/themes/timber-starter-theme
+rm -rf wp-content/themes/timber-starter-theme/wepback-starter-kit
 
 # NPM Install - check if yarn is installed if so use that, if not use NPM
 
