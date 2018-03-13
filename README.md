@@ -65,13 +65,7 @@ Here are some vitals:
 
 ## To enable browser sync
 
-open `wp-content/themes/timber-starter-theme/webpack.dev.js` and uncomment the first line at the top of the file
-
-```javascript
-  const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-```
-
-and also uncomment the following at the bottom of the file.
+open `wp-content/themes/timber-starter-theme/webpack.dev.js`
 
 Update the proxy: `http://localhost:8080/` with the url of the lando dev server, ie `http://my-word-press-site.lndo.site:8000`
 
