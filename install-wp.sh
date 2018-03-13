@@ -123,11 +123,8 @@ git clone git@github.com:timber/starter-theme.git wp-content/themes/timber-start
 echo "Installing Timber via Composer..."
 composer require timber/timber -d=wp-content/themes/timber-starter-theme
 
-# Activate Timber Plugin
-echo "Activating Timber Plugin..."
-wp plugin activate timber-library
-
 # Move functions.php into timber-starter-theme
+echo "Moving functions.php into timber-starter-theme/"
 mv functions.php wp-content/themes/timber-starter-theme
 
 # install & activate the timber starter theme
