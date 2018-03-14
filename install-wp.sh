@@ -112,20 +112,18 @@ wp theme delete twentysixteen
 
 # install WordPress Plugins
 echo "Installing WordPress plugins..."
-WPPLUGINS=( custom-post-type-ui post-types-order svg-support )
+WPPLUGINS=( custom-post-type-ui post-types-order svg-support timber-library)
 wp plugin install ${WPPLUGINS[@]} --activate
 
 # Clone timber starter theme
 echo "Cloning Timber Starter Theme..."
 git clone git@github.com:timber/starter-theme.git wp-content/themes/timber-starter-theme
 
-# Install Timber via Composer
-echo "Installing Timber via Composer..."
-composer require timber/timber -d=wp-content/themes/timber-starter-theme
+# Install ACF Pro
+echo "Installing & Activating ACF Pro Plugin..."
+git clone git@github.com:wp-premium/advanced-custom-fields-pro.git wp-content/plugins/advanced-custom-fields-pro
 
-# Move functions.php into timber-starter-theme
-echo "Moving functions.php into timber-starter-theme/"
-mv functions.php wp-content/themes/timber-starter-theme
+wp plugin activate advanced-custom-fields-pro
 
 # install & activate the timber starter theme
 echo "Activating Timber Theme..."

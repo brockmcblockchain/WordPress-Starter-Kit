@@ -96,3 +96,11 @@ In order to minify your scrips and css for production builds, run:
 ```bash
   yarn build
 ```
+
+## TODO
+
+* add ACF Pro plugin install to script - https://github.com/wp-premium/advanced-custom-fields-pro/archive/master.zip
+
+* Additional Plugins:
+  https://github.com/wp-sync-db/wp-sync-db/archive/master.zip
+  https://github.com/wp-sync-db/wp-sync-db-media-files/archive/master.zip
