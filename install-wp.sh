@@ -112,12 +112,8 @@ wp theme delete twentysixteen
 
 # install WordPress Plugins
 echo "Installing WordPress plugins..."
-WPPLUGINS=( custom-post-type-ui post-types-order svg-support timber-library)
+WPPLUGINS=( custom-post-type-ui post-types-order svg-support)
 wp plugin install ${WPPLUGINS[@]} --activate
-
-# Clone timber starter theme
-echo "Cloning Timber Starter Theme..."
-git clone git@github.com:timber/starter-theme.git wp-content/themes/timber-starter-theme
 
 # Install ACF Pro
 echo "Installing & Activating ACF Pro Plugin..."
@@ -126,8 +122,8 @@ git clone git@github.com:wp-premium/advanced-custom-fields-pro.git wp-content/pl
 wp plugin activate advanced-custom-fields-pro
 
 # install & activate the timber starter theme
-echo "Activating Timber Theme..."
-wp theme activate timber-starter-theme
+#echo "Activating Timber Theme..."
+#wp theme activate timber-starter-theme
 wp theme delete twentyseventeen
 
 # create a navigation bar
@@ -142,19 +138,6 @@ done
 # assign navigation to primary location
 # wp menu location assign main-navigation primary
 
-
-# install Webpack Starter Kit
-echo "Cloning Webpack Starter Kit"
-git clone https://github.com/robertguss/Webpack-Starter-Kit wp-content/themes/timber-starter-theme/wepback-starter-kit
-cp -r wp-content/themes/timber-starter-theme/wepback-starter-kit/* wp-content/themes/timber-starter-theme
-rm -rf wp-content/themes/timber-starter-theme/wepback-starter-kit
-
-# NPM Install - check if yarn is installed if so use that, if not use NPM
-
-# run webpack dev server
-
-
-
 echo "================================================================="
 echo "Installation is complete. Your username/password is listed below."
 echo ""
@@ -162,7 +145,6 @@ echo "Username: $wpuser"
 echo "Password: $password"
 echo ""
 echo "================================================================="
-
 
 
 fi
